@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>github 文件加速</title>
+    <title>GitHub代理工具</title>
     <style>
         * {
             margin: 0;
@@ -18,14 +18,17 @@
             justify-content: center;
             gap: 25px;
             background-color: #f8f9fa;
+            padding: 20px;
         }
 
+        /* 上方空图片 */
         .empty-image {
             width: 320px;
             height: 200px;
             border: 2px dashed #cccccc;
         }
 
+        /* 输入框+按钮 */
         .form-group {
             display: flex;
             gap: 10px;
@@ -56,30 +59,64 @@
         #startBtn:hover {
             background-color: #0056b3;
         }
+
+        /* 底部说明文字样式 */
+        .desc {
+            max-width: 600px;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #333;
+            text-align: left;
+            margin-top: 20px;
+        }
+        .desc a {
+            color: #007bff;
+            text-decoration: none;
+        }
+        .desc a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
+    <!-- 上方空图片 -->
     <img src="" alt="占位图片" class="empty-image">
 
+    <!-- 输入框 + 按钮 -->
     <div class="form-group">
-        <input type="text" id="jumpInput" placeholder="请输入github文件链接">
-        <button id="startBtn">加速</button>
+        <input type="text" id="jumpInput" placeholder="请输入GitHub链接">
+        <button id="startBtn">开始</button>
+    </div>
+
+    <!-- 底部说明文字 -->
+    <div class="desc">
+        ps:GitHub文件链接带不带协议头都可以，支持release、archive以及文件，右键复制出来的链接都是符合标准的，更多用法、clone加速请参考这篇文章。<br>
+        release、archive使用cf加速，文件会跳转至JsDelivr<br><br>
+        注意，不支持项目文件夹<br>
+        示例<br>
+        分支源码：https://github.com/hunshcn/project/archive/master.zip<br><br>
+        release源码：https://github.com/hunshcn/project/archive/v0.1.0.tar.gz<br><br>
+        release文件：https://github.com/hunshcn/project/releases/download/v0.1.0/example.zip<br><br>
+        分支文件：https://github.com/hunshcn/project/blob/master/filename<br><br>
+        项目基于Cloudflare Workers，开源于GitHub hunshcn/gh-proxy
     </div>
 
     <script>
         const input = document.getElementById('jumpInput');
         const btn = document.getElementById('startBtn');
 
+        // 点击按钮跳转：当前URL + 输入内容
         btn.onclick = function () {
             const suffix = input.value.trim();
-            // 🔴 关键修改：自动获取当前网页的URL
+            if(!suffix){
+                alert('请输入链接内容！');
+                return;
+            }
             const baseUrl = window.location.href;
-            
-            // 拼接URL并跳转：当前网址 + 输入框内容
             window.location.href = baseUrl + suffix;
         };
 
-        // 回车键触发跳转
+        // 回车键触发
         input.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') btn.click();
         });
