@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL跳转页面</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            background-color: #f8f9fa;
+        }
+
+        .empty-image {
+            width: 320px;
+            height: 200px;
+            border: 2px dashed #cccccc;
+        }
+
+        .form-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        #jumpInput {
+            padding: 10px 15px;
+            width: 260px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            outline: none;
+        }
+        #jumpInput:focus {
+            border-color: #007bff;
+        }
+
+        #startBtn {
+            padding: 10px 25px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #startBtn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <img src="" alt="占位图片" class="empty-image">
+
+    <div class="form-group">
+        <input type="text" id="jumpInput" placeholder="请输入内容">
+        <button id="startBtn">开始</button>
+    </div>
+
+    <script>
+        const input = document.getElementById('jumpInput');
+        const btn = document.getElementById('startBtn');
+
+        btn.onclick = function () {
+            const suffix = input.value.trim();
+            // 🔴 关键修改：自动获取当前网页的URL
+            const baseUrl = window.location.href;
+            
+            // 拼接URL并跳转：当前网址 + 输入框内容
+            window.location.href = baseUrl + suffix;
+        };
+
+        // 回车键触发跳转
+        input.addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') btn.click();
+        });
+    </script>
+</body>
+</html>
